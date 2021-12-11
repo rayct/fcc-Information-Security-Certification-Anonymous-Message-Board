@@ -1,12 +1,12 @@
 * {
-  font-family: monospace;
+  font-family: montserrat, monospace;
 }
 
 body {
   padding: 10px;
   margin: auto;
   max-width: 600px;
-  font-size: 1em;
+  font-size: 0.8em;
   line-height: 1.2em;
 }
 
@@ -87,4 +87,11 @@ fieldset:active {
 
 #submitNewThread {
   margin: 50px;
+}
+.footer {
+  margin: auto;
+  width: 60%;
+  /* border: 3px solid #73AD21; */
+  padding: 10px;
+  text-align: center;
 }
