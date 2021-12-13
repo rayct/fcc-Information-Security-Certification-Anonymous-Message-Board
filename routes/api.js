@@ -108,7 +108,7 @@ module.exports = function (app) {
           if (threadToDelete.delete_password === delete_password) {
             threadToDelete.remove();
           } else {
-            res.dend('Incorrecct Password');
+            res.send('Incorrecct Password');
             return;
           }
           boardData.save((err, updatedData) => {
