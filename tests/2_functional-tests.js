@@ -121,7 +121,7 @@ suite('Functional Tests', function () {
                 .delete('/api/replies/test-board')
                 .set('content-type', 'application/json')
                 .send({
-                    thread_id; testThread_id,
+                    thread_id: testThread_id,
                     reply_id: testReply_id,
                     delete_password: 'Incorrect',
                 })
@@ -135,7 +135,7 @@ suite('Functional Tests', function () {
 
 
         // Deleting a reply with the correct password: DELETE request to /api/replies/{board} with a valid delete_password
-        
+
 
         // Deleting a thread with the correct password: DELETE request to /api/threads/{board} with a valid delete_password
         test('Deleting a thread with the correct password: DELETE request to /api/threads/{board} with a valid delete_password', function (done) {
