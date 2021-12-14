@@ -94,7 +94,62 @@ suite('Functional Tests', function () {
         test('Viewing a single thread with all replies: GET request to /api/replies/{board}', function (done) {
             chai
                 .request(server)
-            .get('')
+                .get('/api/replies/test-board')
+                .set('content-type', 'application/json')
+                .query({
+                    thread_id: testThread_id,
+                })
+                .end(function (err, res) {
+                    assert.equal(res.status, 200);
+                    assert.log('test get whole thread body', res.body);
+                    assert.equal(res.body._id, testThread_id);
+                    assert.equal(rea.body.text, 'test text');
+                    assert.equal(res.body.replies[0].text, 'test reply');
+                    done();
+                });
+        });
+        // Deleting a reply with the incorrect password: DELETE request to /api/replies/{board} with an invalid delete_password
+        test('Deleting a reply with the incorrect password: DELETE request to /api/replies/{board} with an invalid delete_password', function (done) {
+            console.log(
+                'delete reply invalid ids: thread_id: ' +
+                testThread_id +
+                ' reply_id: ' +
+                testReply_id
+            );
+            chai
+            .request(server)
+                .delete('/api/replies/test-board')
+                .set('content-type', 'application/json')
+                .send({
+                    thread_id; testThread_id,
+                    reply_id: testReply_id,
+                    delete_password: 'Incorrect',
+                })
+                .end(function (err, res) {
+                    assert.equal(res.status, 200);
+                    assert.equal(res, text, 'Incorrecct Password');
+                    done();
+            });
+        });
+        // Reporting a reply: PUT request to /api/replies/{board}
+
+
+        // Deleting a reply with the correct password: DELETE request to /api/replies/{board} with a valid delete_password
+        
+
+        // Deleting a thread with the correct password: DELETE request to /api/threads/{board} with a valid delete_password
+        test('Deleting a thread with the correct password: DELETE request to /api/threads/{board} with a valid delete_password', function (done) {
+
+        })
+
+
+
+
+
+
+
+
+
         suite('Functional Tests', function () {
 
         });
