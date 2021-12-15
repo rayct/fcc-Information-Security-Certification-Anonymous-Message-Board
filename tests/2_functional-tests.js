@@ -132,26 +132,51 @@ suite('Functional Tests', function () {
             });
         });
         // Reporting a reply: PUT request to /api/replies/{board}
-
-
-        // Deleting a reply with the correct password: DELETE request to /api/replies/{board} with a valid delete_password
-
-
-        // Deleting a thread with the correct password: DELETE request to /api/threads/{board} with a valid delete_password
-        test('Deleting a thread with the correct password: DELETE request to /api/threads/{board} with a valid delete_password', function (done) {
-
-        })
-
-
-
-
-
-
-
-
-
-        suite('Functional Tests', function () {
-
+        test('Reporting a reply: PUT request to /api/replies/{board}', function (done) {
+            chai
+                .request(server)
+                    .put('/api/replies/test-board')
+                    .set('content-type', 'application/json')
+                    .send({
+                        thread_id: testThread_id,
+                        reply_id: testReply_id,
+                    })
+                    .end(function (err, res) {
+                        assert.equal(res.status, 200);
+                        assert.equal(res.text, 'Success');
+                        done();
+                     });
         });
+        // Deleting a reply with the correct password: DELETE request to /api/replies/{board} with a valid delete_password
+        test('Deleting a reply with the correct password: DELETE request to /api/replies/{board} with a valid delete_password', function (done) {
+            chai
+                .request(server)
+                .delete("/api/replies/test-board")
+                .set('content-type', 'application/json')
+                .send({
+                    thread_id: testThread_id,
+                    reply_id: testReply_id,
+                    delete_password: 'testreply',
+                })
+                .end(function (err, res) {
+                    assert.equal(res.status, 200);
+                    assert.equal(res.text, 'Success');
+                    done();
+                });
+        });
+        // Deleting a thread with the correct password: DELETE request to /api/threads/{board} with a valid delete_password
+            test('Deleting a thread with the correct password: DELETE request to /api/threads/{board} with a valid delete_password', function (done) {
+                chai
+                    .request(server)
+                    .delete('/api/threads/test-board')
+                    .set('content-type', 'application/json')
+                    .send({ thread_id: testThread_id, delete_password: 'test' })
+                    .end(function (err, res) {
+                        assert.equal(res.status, 200);
+                        assert.equal(res.text, 'Success');
+                        done();
+                    });
+            });
     });
+});
 
