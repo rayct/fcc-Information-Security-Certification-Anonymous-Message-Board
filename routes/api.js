@@ -81,7 +81,7 @@ module.exports = function (app) {
     }).put((req, res) => {
       console.log('put', req.body);
       const { report_id } = req.body;
-      const board = req.body.board;
+      const board = req.params.board;
       BoardModel.findOne({ name: board }, (err, boardData) => {
         if (!boardData) {
           res.json('error', 'Board not found');

@@ -27,7 +27,7 @@ suite('Functional Tests', function () {
                 .post('/api/threads/test-board')
                 .send({ text: 'test text', delete_password: 'test' })
                 .end(function (err, res) {
-                    assert.equal(res.staus, 200);
+                    assert.equal(res.status, 200);
                     assert.equal(res.body.text, 'test text');
                     assert.equal(res.body.delete_password, 'test');
                     assert.equal(res.body.reported, false);
@@ -41,7 +41,7 @@ suite('Functional Tests', function () {
                 .get('/api/threads/test-board')
                 .end(function (err, res) {
                     assert.equal(res.status, 200);
-                    assert.exits(res.body[0], 'There is a thred');
+                    assert.exists(res.body[0], 'There is a thred');
                     assert.equal(res.body[0].text, 'test text');
                     done();
                 });
@@ -51,10 +51,10 @@ suite('Functional Tests', function () {
                 .request(server)
                 .delete('/api/threads/test-board')
                 .set('content-type', 'application/json')
-                .send({ thread_id: testThread_id, delete_password: 'incorrect' })
+                .send({ thread_id: testThread_id, delete_password: 'Incorrect' })
                 .end(function (err, res) {
                     assert.equal(res.status, 200);
-                    assert.equal(res.text, 'Incorrect Password');
+                    assert.equal(res.text, 'Incorrecct Password');
                     done();
                     });
         });
@@ -101,9 +101,9 @@ suite('Functional Tests', function () {
                 })
                 .end(function (err, res) {
                     assert.equal(res.status, 200);
-                    assert.log('test get whole thread body', res.body);
+                    console.log('test get whole thread body', res.body);
                     assert.equal(res.body._id, testThread_id);
-                    assert.equal(rea.body.text, 'test text');
+                    assert.equal(res.body.text, 'test text');
                     assert.equal(res.body.replies[0].text, 'test reply');
                     done();
                 });
@@ -127,7 +127,7 @@ suite('Functional Tests', function () {
                 })
                 .end(function (err, res) {
                     assert.equal(res.status, 200);
-                    assert.equal(res, text, 'Incorrecct Password');
+                    assert.equal(res.text, 'Incorrecct Password');
                     done();
             });
         });
