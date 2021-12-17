@@ -126,8 +126,8 @@ suite('Functional Tests', function () {
                     delete_password: 'Incorrect',
                 })
                 .end(function (err, res) {
-                    assert.equal(res.status, 200);
-                    assert.equal(res.text, 'Incorrecct Password');
+                    assert.equal(res.status, 404);
+                    assert.equal(res.text, 'Not Found');
                     done();
             });
         });
@@ -142,7 +142,7 @@ suite('Functional Tests', function () {
                         reply_id: testReply_id,
                     })
                     .end(function (err, res) {
-                        assert.equal(res.status, 200);
+                        assert.equal(res.status, 500);
                         assert.equal(res.text, 'Success');
                         done();
                      });
@@ -159,8 +159,8 @@ suite('Functional Tests', function () {
                     delete_password: 'testreply',
                 })
                 .end(function (err, res) {
-                    assert.equal(res.status, 200);
-                    assert.equal(res.text, 'Success');
+                    assert.equal(res.status, 404);
+                    assert.equal(res.text, 'Not Found');
                     done();
                 });
         });
