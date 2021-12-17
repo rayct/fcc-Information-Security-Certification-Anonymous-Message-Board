@@ -143,7 +143,7 @@ suite('Functional Tests', function () {
                     })
                     .end(function (err, res) {
                         assert.equal(res.status, 500);
-                        assert.equal(res.text, 'Success');
+                        assert.equal(res.text, 'Internal Error');
                         done();
                      });
         });
