@@ -25,6 +25,7 @@ suite('Functional Tests', function () {
             chai
                 .request(server)
                 .post('/api/threads/test-board')
+                .set('content-type', 'application/json')
                 .send({ text: 'test text', delete_password: 'test' })
                 .end(function (err, res) {
                     assert.equal(res.status, 200);
