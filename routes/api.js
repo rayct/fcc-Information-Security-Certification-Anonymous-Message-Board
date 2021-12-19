@@ -6,11 +6,12 @@ const ReplyModel = require('../models').Reply;
 
 module.exports = function (app) {
   app.route('/api/threads/:board').post((req, res) => {
-    const { text, delete_password } = req.body; let board = req.body.board;
+    const { text, delete_password } = req.body;
+    let board = req.body.board;
     if (!board) {
       board = req.params.board;
     }
-    console.log('post', req.body, board);
+    console.log('post', req.body);
     const newThread = new ThreadModel({
       text: text,
       delete_password: delete_password,
@@ -78,7 +79,8 @@ module.exports = function (app) {
           res.json(threads);
         }
       });
-    }).put((req, res) => {
+    })
+    .put((req, res) => {
       console.log('put', req.body);
       const { report_id } = req.body;
       const board = req.params.board;
@@ -104,11 +106,11 @@ module.exports = function (app) {
         if (!boardData) {
           res.json('error', 'Board not found');
         } else {
-          let threadToDelete = boardData.threads.id(thread_id);
-          if (threadToDelete.delete_password === delete_password) {
-            threadToDelete.remove();
+          let threadToDlete = boardData.threads.id(thread_id);
+          if (threadToDlete.delete_password === delete_password) {
+            threadToDlete.remove();
           } else {
-            res.send('Incorrecct Password');
+            res.send('Incorrect Password')
             return;
           }
           boardData.save((err, updatedData) => {
@@ -117,6 +119,8 @@ module.exports = function (app) {
         }
       });
     });
+  
+  // POST
   app.route('/api/replies/:board').post((req, res) => {
     console.log('thread', req.body);
     const { thread_id, text, delete_password } = req.body;
@@ -138,7 +142,8 @@ module.exports = function (app) {
         });
       }
     });
-  }).get((req, res) => {
+  })
+    .get((req, res) => {
     const board = req.params.board;
     BoardModel.findOne({ name: board }, (err, data) => {
       if (!data) {
@@ -150,25 +155,57 @@ module.exports = function (app) {
         res.json(thread);
       }
     });
-  }).put((req, res) => {
+    })
+    .put((req, res) => {
     // thread_id: 61b3f8c680b923c2ac93f16d
     // reply_id: 61b3f8c680b923c2ac93f16b
     const { thread_id, reply_id } = req.body;
     const board = req.params.board;
-    if (!data) {
-      console.log('No board with this name');
-      res.json({ error: 'No board with this name' });
-    } else {
-      console.log('data', data);
-      let thread = data.threads.id(thread_id);
-      let reply = thread.replies.id(reply_id);
-      reply.reported = true;
-      reply.bumped_on = new Data();
-      data.save((err, updatedData) => {
-        if (!err) {
-          res.send('Success');
+    BoardModel.findOne({ name: board }, (err, data) => {
+      if (!data) {
+        console.log('No board with this name');
+        res.json({ error: 'No board with this name' });
+      } else {
+        console.log('data', data);
+        let thread = data.threads.id(thread_id);
+        let reply = thread.replies.id(reply_id);
+        reply.reported = true;
+        reply.bumped_on = new Date();
+        data.save((err, updatedData) => {
+          if (!err) {
+            res.send('Success');
+          }
+        });
+      }
+    });
+  })
+  .delete((req, res) => {
+    const { thread_id, reply_id, delete_password } = req.body;
+    console.log('delete reply body', req.body);
+    const board = req.params.board;
+    BoardModel.findOne({ name: board }, (err, data) => {
+      if (!data) {
+        console.log('No board with this name');
+        res.json({ error: 'No board with this name' });
+      } else {
+        console.log('data', data);
+        let thread = data.threads.id(thread_id);
+        let reply = thread.replies.id(reply_id);
+        if (threadToDelete.delete_password === delete_password) {
+          reply.remove();
+        } else {
+          res.send('Incorrecct Password');
+          return;
         }
-      });
-    }
+        data.save((err, updatedData) => {
+          if (!err) {
+            res.send('Success');
+          }
+        });
+      }
+    });
   });
 };
+
+
+
