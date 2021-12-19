@@ -191,7 +191,7 @@ module.exports = function (app) {
         console.log('data', data);
         let thread = data.threads.id(thread_id);
         let reply = thread.replies.id(reply_id);
-        if (threadToDelete.delete_password === delete_password) {
+        if (reply.delete_password === delete_password) {
           reply.remove();
         } else {
           res.send('Incorrecct Password');
